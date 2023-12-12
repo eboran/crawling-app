@@ -9,3 +9,4 @@ requests==2.31.0
 pytest==7.4.3
 httpx==0.25.2
 mongomock
+pytest-mock
