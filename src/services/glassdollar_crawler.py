@@ -33,7 +33,7 @@ class GlassDollarCrawlingService:
         """
         logger.info(f"Crawling is started with job id {job_id}")
 
-        if GlassDollarCrawlingService.is_job_id_exist(job_id):
+        if GlassDollarCrawlingService.does_job_id_exist(job_id):
             logger.error(f"Job id {job_id} is already in use.")
             raise HTTPException(status_code=400, detail="This Job ID has already been used.")
 
@@ -45,7 +45,7 @@ class GlassDollarCrawlingService:
             logger.info(f"Task created for {city} with job id {job_id}")
 
     @staticmethod
-    def is_job_id_exist(job_id: str):
+    def does_job_id_exist(job_id: str) -> bool:
         """
         Checks if a job ID already exists in the database.
 
