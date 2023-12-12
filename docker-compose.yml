@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - .:/app
+    command: uvicorn src.main:app --host 0.0.0.0 --port 80
+    depends_on:
+      - celery
+      - rabbitmq
+
+  celery:
+    build:
+      context: .
+      dockerfile: Dockerfile.celery
+    volumes:
+      - .:/app
+    command: celery -A src.celery.app worker --loglevel=info
+    depends_on:
+      - rabbitmq
+      - mongodb
+
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+
+  flower:
+    image: mher/flower:0.9.7
+    command: flower --broker=amqp://guest:guest@rabbitmq:5672 --broker_api=http://guest:guest@rabbitmq:15672/api/
+    ports:
+      - "5555:5555"
+    depends_on:
+      - rabbitmq
+      - celery
+
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
+volumes:
+  mongodb_data:
+
+
