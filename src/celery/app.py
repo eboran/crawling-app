@@ -77,9 +77,6 @@ def corporate_task(corporate_id: str, job_id: str) -> str:
         logger.error(f"Error occurred in validation {str(ex)}. corporate_data: {corporate_data}")
         raise
 
-    import time
-    #time.sleep(3)
-
     MongoConnection("corporates").insert_one(corporate.model_dump())
     MongoConnection("job").increment_counter(job_id)
 
