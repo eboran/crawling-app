@@ -34,7 +34,7 @@ The job ID is crucial for both starting the crawl and accessing results. Keep it
 
 ### Data Models
 
-```json
+```javascript
 // Example of a Job document
 {
     "_id" : ObjectId("6577be5d6ba5f95dba564c46"),
