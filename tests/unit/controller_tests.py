@@ -26,15 +26,15 @@ def test_start_glassdollar_crawling_no_job_id():
     assert response.status_code == 422
 
 
-def test_get_documents_success(monkeypatch, job_id, corporates):
+def test_get_documents_success(monkeypatch, job_id, output_corporates):
     def mock_get_documents(job_id):
-        return corporates
+        return output_corporates
 
     monkeypatch.setattr(GlassDollarRetrievalService, "get_documents", mock_get_documents)
 
     response = client.get(f"/documents/glassdollar/{job_id}")
     assert response.status_code == 200
-    assert response.json() == [cor.dict(exclude_none=True) for cor in corporates]
+    assert response.json() == [cor.dict(exclude_none=True) for cor in output_corporates]
 
 
 def test_get_documents_error(monkeypatch, job_id):
@@ -48,14 +48,14 @@ def test_get_documents_error(monkeypatch, job_id):
     assert f"There is no job with {job_id}" in response.text
 
 
-def test_get_latest_completed_job_documents(monkeypatch, corporates):
+def test_get_latest_completed_job_documents(monkeypatch, output_corporates):
     def mock_get_latest_documents():
-        return corporates
+        return output_corporates
 
     monkeypatch.setattr(GlassDollarRetrievalService, "get_latest_documents", mock_get_latest_documents)
     response = client.get("/documents/glassdollar-latest")
     assert response.status_code == 200
-    assert response.json() == [cor.dict(exclude_none=True) for cor in corporates]
+    assert response.json() == [cor.dict(exclude_none=True) for cor in output_corporates]
 
 
 def test_get_latest_completed_job_documents_error(monkeypatch):
@@ -69,14 +69,14 @@ def test_get_latest_completed_job_documents_error(monkeypatch):
     assert "There is no completed job" in response.text
 
 
-def test_search_documents(monkeypatch, corporates, keyword):
+def test_search_documents(monkeypatch, output_corporates, keyword):
     def mock_search_documents(keyword):
-        return corporates
+        return output_corporates
 
     monkeypatch.setattr(GlassDollarRetrievalService, "search_documents", mock_search_documents)
     response = client.get(f"/search/glassdollar/{keyword}")
     assert response.status_code == 200
-    assert response.json() == [cor.dict(exclude_none=True) for cor in corporates]
+    assert response.json() == [cor.dict(exclude_none=True) for cor in output_corporates]
 
 
 def test_search_documents_error(monkeypatch, keyword):
