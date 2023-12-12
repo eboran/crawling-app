@@ -1,9 +1,8 @@
-from mock import patch
+import pytest
 
 from src.services.glassdollar_crawler import GlassDollarCrawlingService
 from src.dataaccess.database import MongoConnection
 from src.dataaccess.glassdollar_crawler import GlassDollarCrawlerDataAccess
-from src.celery import app as celery_app
 
 
 def test_start_crawling(monkeypatch, job, mocked_city_task):
@@ -28,3 +27,25 @@ def test_start_crawling(monkeypatch, job, mocked_city_task):
     monkeypatch.setattr(GlassDollarCrawlerDataAccess, "get_total_corporate_count", mock_get_total_corporate_count)
 
     assert GlassDollarCrawlingService.start_crawling(job.job_id) is None
+
+
+@pytest.mark.parametrize(
+    ["does_job_id_exist", "expected_output"],
+    [
+        (False, False),
+        (True, True),
+    ],
+)
+def test_start_crawling(monkeypatch, job, mongo_client, does_job_id_exist, expected_output):
+    MongoConnection.client = mongo_client
+    if does_job_id_exist:
+        MongoConnection("job").insert_one(job.model_dump())
+
+    function_output = GlassDollarCrawlingService.does_job_id_exist(job.job_id)
+    assert function_output == expected_output
+
+
+def test_create_job(job, mongo_client):
+    MongoConnection.client = mongo_client
+
+    assert GlassDollarCrawlingService.create_job(job.job_id, 1) is None

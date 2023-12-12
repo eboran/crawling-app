@@ -1,17 +1,9 @@
-from datetime import datetime
-from celery import Celery
 from fastapi import HTTPException
-from pydantic import ValidationError
 from loguru import logger
-import json
-from typing import List, Union
 
 from src.celery.app import city_task
-from src.constants.dataaccess import DataAccessConstants
 from src.dataaccess.glassdollar_crawler import GlassDollarCrawlerDataAccess
-from src.configs.app import AppConfig
 from src.dataaccess.database import MongoConnection
-from src.configs.dataaccess import DataAccessConfig
 from src.schemas.job import Job
 
 
