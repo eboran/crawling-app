@@ -12,9 +12,7 @@ Execute the application using Docker. You can adjust the number of Celery worker
 docker-compose up --scale celery=10
 ```
 
-You can easily reach the [API Documentation](http://0.0.0.0/docs)
- by navigating to the following URL in your web browser:
- `http://0.0.0.0/docs`
+Once the application is successfully up and running, you can access the [API Documentation](http://0.0.0.0/docs) by visiting the following URL in your web browser: `http://0.0.0.0/docs`
 
 ![FastAPI architecture used in the application.](images/fastapi.png)
 
