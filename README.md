@@ -46,6 +46,8 @@ The job ID is crucial for both starting the crawl and accessing results. Keep it
 
 // Example of a Corporate document
 {
+    "_id" : ObjectId("6577bcf3eb34a56785e95947"),
+    "id" : "ace7c133-b21c-9aa8-a8a5-c06d7d6f9232",
     "name" : "Swisscom",
     "description" : "Switzerland’s leading telecom provider",
     "logo_url" : "https://logo.clearbit.com/www.swisscom.ch",
