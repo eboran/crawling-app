@@ -15,7 +15,7 @@ class GlassDollarRetrievalService:
         job_id (str): The job ID to fetch documents for.
 
         Returns:
-        Union[List[dict], HTTPException]: A list of documents or an HTTPException if the job is not completed or doesn't exist.
+        Union[List[dict], dict]: A list of documents or a dict if the job is not completed.
         """
         is_completed = GlassDollarRetrievalService.is_job_completed(job_id)
 

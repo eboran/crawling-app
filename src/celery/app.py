@@ -11,14 +11,12 @@ from src.schemas.corporates import Corporate
 celery_app = Celery('my_celery_app', broker=AppConfig.BROKER_URL)
 
 
-# Celery worker initialization
 @worker_init.connect
 def init_worker(**kwargs):
     MongoConnection.connect()
     logger.info("Initialized MongoDB connection for worker")
 
 
-# Celery worker shutdown
 @worker_shutdown.connect
 def shutdown_worker(**kwargs):
     MongoConnection.disconnect()
@@ -68,7 +66,7 @@ def corporate_task(corporate_id: str, job_id: str) -> str:
     job_id (str): The ID of the job this task is part of.
 
     Returns:
-    None: This function does not return anything but logs the completion of the task.
+    str: Success message
     """
     corporate_data = GlassDollarCrawlerDataAccess.get_corporate_details(corporate_id)
     try:
