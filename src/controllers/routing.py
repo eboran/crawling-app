@@ -1,6 +1,5 @@
 from fastapi import APIRouter, HTTPException
 from typing import List, Dict, Union
-from pydantic import BaseModel, Field
 
 from src.services.glassdollar_crawler import GlassDollarCrawlingService
 from src.services.glassdollar_retrieval import GlassDollarRetrievalService
